@@ -2,15 +2,9 @@ const { Telegraf } = require('telegraf');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-// START
 bot.start((ctx) => {
   ctx.reply(
 `🚀 Xush kelibsiz!
-
-Bu bot orqali siz:
-• Landing page sayt
-• Vizitka sayt
-• Web App orqali buyurtma berishingiz mumkin
 
 👇 Web Appni oching:`,
   {
@@ -20,7 +14,7 @@ Bu bot orqali siz:
           {
             text: "🌐 Web App ochish",
             web_app: {
-              url: "https://aiweb-brown.vercel.app/"
+              url: "https://aiweb-one-phi.vercel.app/"
             }
           }
         ]
@@ -29,8 +23,9 @@ Bu bot orqali siz:
   });
 });
 
-// WEB APP DAN KELGAN ZAKAZ
 bot.on('message', async (ctx) => {
+  console.log(ctx.message);
+
   if (ctx.message.web_app_data) {
     const data = JSON.parse(ctx.message.web_app_data.data);
 
@@ -42,12 +37,10 @@ bot.on('message', async (ctx) => {
 🏢 Biznes: ${data.business}
 📝 Izoh: ${data.comment || '-'}`;
 
-    // ADMINGA YUBORISH
-    await ctx.telegram.sendMessage('8779954504', text);
+    await ctx.telegram.sendMessage(8779954504, text);
 
     ctx.reply("✅ Zakazingiz qabul qilindi!");
   }
 });
 
 bot.launch();
-console.log("Bot ishlayapti...");
