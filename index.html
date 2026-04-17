@@ -29,7 +29,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<style>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+ <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
 
 :root{
@@ -740,13 +741,14 @@ body{
 </section>
 
 <!-- CONTACT -->
-<section id="contact">
-<h2 data-aos="fade-up">Aloqa</h2>
-<div class="contact-box">
-<a class="contact-btn telegram" href="https://imo.onelink.me/7QOl/iso">IMO</a>
-<a class="contact-btn phone" href="tel:+918826816138">Telefon</a>
-</div>
-</section>
+<h2>Zakaz berish</h2>
+
+<input id="name" placeholder="Ism"><br><br>
+<input id="phone" placeholder="Telefon"><br><br>
+<input id="business" placeholder="Biznes turi"><br><br>
+<input id="comment" placeholder="Izoh"><br><br>
+
+<button onclick="sendOrder()">📩 Yuborish</button>
 
  <!-- FLOAT -->
 <div class="float">
@@ -764,6 +766,20 @@ body{
 
   <script>
   AOS.init();
+   const tg = window.Telegram.WebApp;
+tg.expand();
+
+function sendOrder() {
+  const data = {
+    name: document.getElementById("name").value,
+    phone: document.getElementById("phone").value,
+    business: document.getElementById("business").value,
+    comment: document.getElementById("comment").value
+  };
+
+  tg.sendData(JSON.stringify(data));
+}
+   
   let deferredPrompt;
 const popup = document.getElementById("installPopup");
 
