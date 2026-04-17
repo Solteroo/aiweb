@@ -741,14 +741,25 @@ body{
 </section>
 
 <!-- CONTACT -->
+<section id="contact">
 <h2>Zakaz berish</h2>
 
-<input id="name" placeholder="Ism"><br><br>
-<input id="phone" placeholder="Telefon"><br><br>
-<input id="business" placeholder="Biznes turi"><br><br>
-<input id="comment" placeholder="Izoh"><br><br>
+<div style="max-width:400px;margin:auto;background:#111;padding:20px;border-radius:16px;border:1px solid #222">
 
-<button onclick="sendOrder()">📩 Yuborish</button>
+<input id="name" placeholder="Ismingiz" style="width:100%;padding:12px;margin-bottom:10px;border-radius:10px;border:none;background:#1a1a1a;color:#fff">
+
+<input id="phone" placeholder="Telefon" style="width:100%;padding:12px;margin-bottom:10px;border-radius:10px;border:none;background:#1a1a1a;color:#fff">
+
+<input id="business" placeholder="Biznes turi" style="width:100%;padding:12px;margin-bottom:10px;border-radius:10px;border:none;background:#1a1a1a;color:#fff">
+
+<input id="comment" placeholder="Izoh" style="width:100%;padding:12px;margin-bottom:15px;border-radius:10px;border:none;background:#1a1a1a;color:#fff">
+
+<button onclick="sendOrder()" style="width:100%;padding:14px;border:none;border-radius:12px;background:#d4af37;color:#000;font-weight:800">
+🚀 Zakaz yuborish
+</button>
+
+</div>
+</section>
 
  <!-- FLOAT -->
 <div class="float">
@@ -777,9 +788,15 @@ function sendOrder() {
     comment: document.getElementById("comment").value
   };
 
+  if (!data.name || !data.phone) {
+    alert("Ism va telefon kiriting!");
+    return;
+  }
+
   tg.sendData(JSON.stringify(data));
+
+  alert("✅ Zakaz yuborildi!");
 }
-   
   let deferredPrompt;
 const popup = document.getElementById("installPopup");
 
