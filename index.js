@@ -3,38 +3,44 @@ const { Telegraf } = require('telegraf');
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
 bot.start((ctx) => {
-  ctx.reply(
-`🚀 Xush kelibsiz!
+  ctx.reply(`🚀 Xush kelibsiz!
 
-👇 Web Appni oching:`,
-  {
+👇 Web Appni oching:`, {
     reply_markup: {
-      inline_keyboard: [
-        [
-          {
-            text: "🌐 Web App ochish",
-            web_app: {
-              url: "https://aiweb-one-phi.vercel.app/"
-            }
-          }
-        ]
-      ]
+      inline_keyboard: [[{
+        text: "🌐 Web App ochish",
+        web_app: { url: "https://aiweb-one-phi.vercel.app/" }
+      }]]
     }
   });
 });
 
 bot.on('message', async (ctx) => {
-  console.log(ctx.message);
+  try {
+    if (ctx.message.web_app_data) {
+      const raw = ctx.message.web_app_data.data;
+      if (!raw) return;
 
-  if (ctx.message.web_app_data) {
-    const data = JSON.parse(ctx.message.web_app_data.data);
+      const data = JSON.parse(raw);
 
-    const text =
-`📩 YANGI ZAKAZ
+      const text = `📩 YANGI ZAKAZ
 
-👤 Ism: ${data.name}
-📞 Telefon: ${data.phone}
-🏢 Biznes: ${data.business}
+👤 ${data.name || '-'}
+📞 ${data.phone || '-'}
+🏢 ${data.business || '-'}
+📝 ${data.comment || '-'}`;
+
+      await ctx.telegram.sendMessage(8779954504, text);
+      await ctx.reply("✅ Zakaz qabul qilindi!");
+    }
+  } catch (e) {
+    console.log("ERROR:", e);
+  }
+});
+
+bot.launch()
+  .then(()=>console.log("RUNNING"))
+  .catch(err=>console.log(err));🏢 Biznes: ${data.business}
 📝 Izoh: ${data.comment || '-'}`;
 
     await ctx.telegram.sendMessage(8779954504, text);
