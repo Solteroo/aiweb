@@ -7,7 +7,7 @@ bot.start((ctx) => {
   ctx.reply("👋 Xush kelibsiz!", {
     reply_markup: {
       inline_keyboard: [
-        [{ text: "🌐 Web App", web_app: { url: "https://aiweb-brown.vercel.app/" } }],
+        [{ text: "🌐 Web App", web_app: { url: "https://aiweb-jet-five.vercel.app/" } }],
         [{ text: "💼 Services", callback_data: "services" }],
         [{ text: "📩 Order", callback_data: "order" }]
       ]
