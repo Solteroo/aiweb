@@ -15,46 +15,32 @@ bot.start((ctx) => {
   });
 });
 
-/* BUTTONS */
+/* CALLBACK BUTTONS */
 bot.on('callback_query', async (ctx) => {
   const data = ctx.callbackQuery.data;
 
+  await ctx.answerCbQuery();
+
   if (data === 'services') {
-    await ctx.answerCbQuery();
     return ctx.reply("💻 Landing page, Web App, Vizitka sayt");
   }
 
   if (data === 'order') {
-    await ctx.answerCbQuery();
     return ctx.reply("📩 Web App orqali buyurtma bering");
   }
 });
 
-/* WEB APP DATA */
+/* WEB APP DATA HANDLER */
 bot.on('message', async (ctx) => {
-  const webAppData = ctx.message?.web_app_data?.data;
+  try {
+    const webAppData = ctx.message?.web_app_data?.data;
 
-  if (!webAppData) return;
+    if (!webAppData) return;
 
-  const data = JSON.parse(webAppData);
+    let data;
 
-  const text =
-`📩 YANGI ZAKAZ
-
-👤 Ism: ${data.name}
-📞 Telefon: ${data.phone}
-🏢 Biznes: ${data.business}
-📝 Izoh: ${data.comment || '-'}`;
-
-  await ctx.telegram.sendMessage('8779954504', text);
-
-  await ctx.reply("✅ Zakaz qabul qilindi!");
-});
-
-/* START BOT */
-bot.launch();
-
-console.log("BOT STARTED");      data = JSON.parse(webAppData);
+    try {
+      data = JSON.parse(webAppData);
     } catch (e) {
       return ctx.reply("❌ WebApp data noto‘g‘ri format");
     }
@@ -67,18 +53,17 @@ console.log("BOT STARTED");      data = JSON.parse(webAppData);
 🏢 Biznes: ${data.business || '-'}
 📝 Izoh: ${data.comment || '-'}`;
 
-    // ADMINGA YUBORISH (ID o‘rniga o‘zingnikini qo‘y)
     await ctx.telegram.sendMessage('8779954504', text);
 
     await ctx.reply("✅ Zakazingiz qabul qilindi!");
 
   } catch (err) {
-    console.error("ERROR:", err);
+    console.error(err);
     ctx.reply("❌ Server xatolik");
   }
 });
 
-// BOT START
+/* START BOT */
 bot.launch();
 
 console.log("BOT STARTED");
