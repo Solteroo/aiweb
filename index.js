@@ -1,40 +1,60 @@
 const { Telegraf } = require('telegraf');
 
-// BOT TOKEN ENV CHECK
-if (!process.env.BOT_TOKEN) {
-  console.error("❌ BOT_TOKEN YO'Q!");
-  process.exit(1);
-}
-
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-// START COMMAND
+/* START + INLINE MENU */
 bot.start((ctx) => {
-  ctx.reply(
-`🚀 Xush kelibsiz!
-
-Bu bot orqali siz:
-• Web sayt buyurtma qilishingiz mumkin
-• Web App orqali form yuborishingiz mumkin
-
-👇 Web Appni oching`
-  );
+  ctx.reply("👋 Xush kelibsiz!", {
+    reply_markup: {
+      inline_keyboard: [
+        [{ text: "🌐 Web App", web_app: { url: "https://aiweb-brown.vercel.app/" } }],
+        [{ text: "💼 Services", callback_data: "services" }],
+        [{ text: "📩 Order", callback_data: "order" }]
+      ]
+    }
+  });
 });
 
-// WEB APP + NORMAL MESSAGE HANDLER
+/* BUTTONS */
+bot.on('callback_query', async (ctx) => {
+  const data = ctx.callbackQuery.data;
+
+  if (data === 'services') {
+    await ctx.answerCbQuery();
+    return ctx.reply("💻 Landing page, Web App, Vizitka sayt");
+  }
+
+  if (data === 'order') {
+    await ctx.answerCbQuery();
+    return ctx.reply("📩 Web App orqali buyurtma bering");
+  }
+});
+
+/* WEB APP DATA */
 bot.on('message', async (ctx) => {
-  try {
-    const webAppData = ctx.message?.web_app_data?.data;
+  const webAppData = ctx.message?.web_app_data?.data;
 
-    // Agar WebApp bo'lmasa oddiy javob
-    if (!webAppData) {
-      return ctx.reply("🤖 Bot ishlayapti");
-    }
+  if (!webAppData) return;
 
-    let data;
+  const data = JSON.parse(webAppData);
 
-    try {
-      data = JSON.parse(webAppData);
+  const text =
+`📩 YANGI ZAKAZ
+
+👤 Ism: ${data.name}
+📞 Telefon: ${data.phone}
+🏢 Biznes: ${data.business}
+📝 Izoh: ${data.comment || '-'}`;
+
+  await ctx.telegram.sendMessage('8779954504', text);
+
+  await ctx.reply("✅ Zakaz qabul qilindi!");
+});
+
+/* START BOT */
+bot.launch();
+
+console.log("BOT STARTED");      data = JSON.parse(webAppData);
     } catch (e) {
       return ctx.reply("❌ WebApp data noto‘g‘ri format");
     }
