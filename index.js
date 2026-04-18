@@ -2,7 +2,7 @@ const { Telegraf } = require('telegraf');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-/* START + INLINE MENU */
+/* START MENU */
 bot.start((ctx) => {
   ctx.reply("👋 Xush kelibsiz!", {
     reply_markup: {
@@ -15,10 +15,9 @@ bot.start((ctx) => {
   });
 });
 
-/* CALLBACK BUTTONS */
+/* CALLBACK */
 bot.on('callback_query', async (ctx) => {
   const data = ctx.callbackQuery.data;
-
   await ctx.answerCbQuery();
 
   if (data === 'services') {
@@ -30,20 +29,13 @@ bot.on('callback_query', async (ctx) => {
   }
 });
 
-/* WEB APP DATA HANDLER */
+/* WEB APP */
 bot.on('message', async (ctx) => {
   try {
     const webAppData = ctx.message?.web_app_data?.data;
-
     if (!webAppData) return;
 
-    let data;
-
-    try {
-      data = JSON.parse(webAppData);
-    } catch (e) {
-      return ctx.reply("❌ WebApp data noto‘g‘ri format");
-    }
+    const data = JSON.parse(webAppData);
 
     const text =
 `📩 YANGI ZAKAZ
@@ -54,16 +46,15 @@ bot.on('message', async (ctx) => {
 📝 Izoh: ${data.comment || '-'}`;
 
     await ctx.telegram.sendMessage('8779954504', text);
-
-    await ctx.reply("✅ Zakazingiz qabul qilindi!");
+    await ctx.reply("✅ Zakaz qabul qilindi!");
 
   } catch (err) {
     console.error(err);
-    ctx.reply("❌ Server xatolik");
+    ctx.reply("❌ WebApp data xato");
   }
 });
 
-/* START BOT */
+/* START */
 bot.launch();
 
 console.log("BOT STARTED");
