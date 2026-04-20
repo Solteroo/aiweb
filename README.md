@@ -5,7 +5,7 @@ AIWEB is a modern website development project that provides ready-made, high-qua
 ---
 
 ## 🌐 Live Demo
-👉 https://your-vercel-link.vercel.app
+👉 https://aiweb-jet-five.vercel.app/
 
 ---
 
@@ -41,8 +41,8 @@ Custom websites from **$100+**
 ---
 
 ## 📬 Contact
-- Telegram: @yourusername
-- Support bot: @yourbot
+- Telegram: @aiwebuz
+- Support bot: @revordes_bot
 
 ---
 
